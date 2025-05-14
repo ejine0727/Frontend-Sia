@@ -1,0 +1,136 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  background-color: #2e2b2b;
+  color: #333;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 220px;
+  background-color: #ffffff;
+  border-right: 1px solid #ddd;
+  padding: 20px 10px;
+}
+
+.profile {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
+.username {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.nav-links a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  margin: 5px 0;
+  border-radius: 8px;
+  color: #333;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.nav-links a.active,
+.nav-links a:hover {
+  background-color: #d0f0f3;
+}
+
+.icon {
+  font-size: 20px;
+}
+
+.main {
+  flex: 1;
+  padding: 30px;
+  position: relative;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+}
+
+.controls input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.controls button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.task-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.task-card {
+  background: #fdfdfd;
+  border: 1px solid #a5e3a5;
+  border-radius: 10px;
+  padding: 20px;
+  font-size: 18px;
+  box-shadow: 1px 1px 4px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.task-card span {
+  font-size: 28px;
+}
+
+.task-card small {
+  color: #777;
+  font-size: 14px;
+}
+
+.add-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background-color: #ffcb47;
+  color: white;
+  font-size: 32px;
+  border: none;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+}
