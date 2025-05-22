@@ -1,0 +1,81 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background: #fff;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #ffffff;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 86%;
+  width: 100%;
+  max-width: 1200px;
+  background: #f7efe7;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0px 0px 30px 3px #00000040;
+}
+
+.image-section {
+  flex: 1;
+  text-align: center;
+  height: 80%;
+}
+
+.image-section img {
+  width: 100%;
+  max-width: 70%;
+  height: auto;
+  border-radius: 12px;
+}
+
+.text-right {
+  flex: 1;
+  padding: 20px;
+  text-align: left;
+}
+
+h1 {
+  font-size: 36px;
+  color: #494242;
+  margin-bottom: 20px;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.btn {
+  margin-top: 10px;
+  padding: 12px 20px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #494242;
+  background-color: #ffb35c;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 104%;
+}
+
+.forgot-password {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #007BFF;
+  cursor: pointer;
+}

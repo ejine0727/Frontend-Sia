@@ -2,27 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Task Dashboard</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="container">
+
     <!-- Sidebar -->
     <aside class="sidebar">
       <div class="profile">
-        <img src="Home/images/v1_51.png"alt="User" class="avatar" />
+        <img src="images/jin.jpg" alt="User" class="avatar" />
         <p class="username">Ejinzzxzzx</p>
       </div>
       <nav class="nav-links">
-        <a href="#" class="active"><i class="icon">🏠</i> Home</a>
-        <a href="#"><i class="icon">🕒</i> Today</a>
-        <a href="#"><i class="icon">🗓️</i> Planned</a>
-        <a href="#"><i class="icon">👤</i> Personal</a>
-        <a href="#"><i class="icon">💼</i> Work</a>
-        <a href="#"><i class="icon">🛍️</i> Shopping</a>
-        <a href="#"><i class="icon">🎓</i> School</a>
-        <a href="#"><i class="icon">🤍</i> Wishlist</a>
+        <a href="index.html" class="active"> Dashboard</a>
+        <a href="today/today.html"> Today</a>
+        <a href="calendar/calendar.html"> Calendar</a>
+        <a href="todolist/todolist.html"> To do list</a>
+        <a href="weather/weather.html"> Weather</a>
+        <a href="quotes/quotes.html"> Quotes</a>
+        <a href="timezone/timezone.html"> TimeZone</a>
       </nav>
     </aside>
 
@@ -30,29 +30,110 @@
     <main class="main">
       <header class="header">
         <div>
-          <h1>Hello <strong>Ejinzzxzzx</strong>!</h1>
-          <p>Today you have <strong>4 tasks</strong></p>
+          <h1>Hello <strong>PLANIT</strong>!</h1>
+          <p>Today you have <strong>3 tasks</strong></p>
         </div>
         <div class="controls">
-          <input type="text" placeholder="Search" />
+          <input type="text" id="searchInput" placeholder="Search..." />
           <button>🔔</button>
           <button>⚙️</button>
         </div>
       </header>
 
-      <!-- Task Cards -->
-      <section class="task-grid">
-        <div class="task-card"><span>🕒</span> Today <small>4 tasks</small></div>
-        <div class="task-card"><span>💼</span> Work <small>2 tasks</small></div>
-        <div class="task-card"><span>🗓️</span> Planned <small>2 tasks</small></div>
-        <div class="task-card"><span>🛍️</span> Shopping <small>4 tasks</small></div>
-        <div class="task-card"><span>👤</span> Personal <small>4 tasks</small></div>
-        <div class="task-card"><span>🎓</span> School <small>3 tasks</small></div>
-        <div class="task-card"><span>🎉</span> Wishlist <small>3 tasks</small></div>
-      </section>
+  <!-- Task Cards -->
+<section class="task-grid">
 
-      <button class="add-btn">＋</button>
+  <div class="task-card">
+    <h3><a href="today/today.html" class="task-link">Today</a></h3>
+    <div class="task-item">Finalize homepage layout for the project</div>
+    <div class="task-item">Submit assignment for Web Systems</div>
+    <div class="task-item">Attend group meeting at 3 PM</div>
+    <div class="card-actions">
+     
+    </div>
+  </div>
+
+  <div class="task-card">
+    <h3><a href="calendar/calendar.html" class="task-link">Calendar</a></h3>
+    <div class="task-item">Add upcoming deadlines to the calendar</div>
+    <div class="task-item">Schedule project presentation next week</div>
+    <div class="task-item">Set reminders for weekly reports</div>
+    <div class="card-actions">
+    
+    </div>
+  </div>
+
+  <div class="task-card">
+    <h3><a href="todolist/todolist.html" class="task-link">To do list</a></h3>
+    <div class="task-item">Fix bugs in login module</div>
+    <div class="task-item">Create GitHub issues for remaining tasks</div>
+    <div class="task-item">Upload project progress on classroom</div>
+    <div class="card-actions">
+     
+    </div>
+  </div>
+
+  <div class="task-card">
+    <h3><a href="weather/weather.html" class="task-link">Weather</a></h3>
+    <div class="task-item">Check rain forecast before leaving</div>
+    <div class="task-item">Plan walk if sunny this afternoon</div>
+    <div class="task-item">Wear jacket if temp drops below 22°C</div>
+    <div class="card-actions">
+     
+    </div>
+  </div>
+
+  <div class="task-card">
+   <h3><a href="quotes/quotes.html" class="task-link">Quotes</a></h3>
+    <div class="task-item">Do something today your future self will thank you for.</div>
+    <div class="task-item">Discipline is the bridge between goals and accomplishment.</div>
+    <div class="task-item">Start where you are. Use what you have. Do what you can.</div>
+    <div class="card-actions">
+    
+    </div>
+  </div>
+
+  <div class="task-card">
+    <h3><a href="timezone/timezone.html" class="task-link">TimeZone</a></h3>
+    <div class="task-item">Check Tokyo time before messaging dev team</div>
+    <div class="task-item">Convert 9 AM EST to local time</div>
+    <div class="task-item">Coordinate deadline with teammate in Australia</div>
+    <div class="card-actions">
+    </div>
+  </div>
+
+</section>  
+
     </main>
+
   </div>
 </body>
 </html>
+
+<script>
+  const searchInput = document.getElementById("searchInput");
+
+  searchInput.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      const value = searchInput.value.toLowerCase();
+
+      const pages = {
+        "dashboard": "index.html",
+        "today": "today/today.html",
+        "calendar": "calendar/calendar.html",
+        "to do list": "todolist/todolist.html",
+        "weather": "weather/weather.html",
+        "quotes": "quotes/quotes.html",
+        "timezone": "timezone/timezone.html"
+      };
+
+      if (pages[value]) {
+        window.location.href = "index.html";
+
+      } else {
+        alert("No matching page found.");
+      }
+    }
+  });
+</script>
+
