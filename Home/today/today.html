@@ -2,21 +2,108 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Today’s Tasks</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simple To-Do List</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <div class="container">
-    <main class="main">
-      <h1>Today's Tasks</h1>
-      <ul class="task-list">
-        <li>Finalize homepage layout</li>
-        <li>Submit Web Systems assignment</li>
-        <li>Group meeting at 3 PM</li>
-      </ul>
-      <a href="../index.html">← Back to Dashboard</a>
-    </main>
+
+  <header class="top-link">
+    <a href="../index.html">← Back to Dashboard</a>
+  </header>
+
+  <div class="todo-container">
+    <div class="header">
+      <h1>To-Do Tasks</h1>
+      <div class="buttons">
+        <button onclick="addTask('today')">+ Add Today Task</button>
+        <button onclick="addTask('tomorrow')">+ Add Tomorrow Task</button>
+        <button onclick="addTask('upcoming')">+ Add Upcoming Task</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Today</h2>
+      <ul class="todo-list" id="today-list"></ul>
+    </div>
+
+    <div class="section">
+      <h2>Tomorrow</h2>
+      <ul class="todo-list" id="tomorrow-list"></ul>
+    </div>
+
+    <div class="section">
+      <h2>Upcoming</h2>
+      <ul class="todo-list" id="upcoming-list"></ul>
+    </div>
   </div>
+
+  <script>
+    function addTask(sectionId) {
+      const taskText = prompt("Enter your task:");
+      if (!taskText) return;
+
+      const taskId = 'task-' + Date.now();
+      const list = document.getElementById(`${sectionId}-list`);
+
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <input type="checkbox" id="${taskId}">
+        <label for="${taskId}">${taskText}</label>
+        <button class="delete-btn" onclick="deleteTask(this)">🗑</button>
+      `;
+
+      list.appendChild(li);
+      saveTasks();
+    }
+
+    function deleteTask(button) {
+      button.parentElement.remove();
+      saveTasks();
+    }
+
+    function saveTasks() {
+      const sections = ['today', 'tomorrow', 'upcoming'];
+      const allTasks = {};
+
+      sections.forEach(section => {
+        const list = document.getElementById(`${section}-list`);
+        const tasks = [];
+
+        list.querySelectorAll('li').forEach(li => {
+          const label = li.querySelector('label').textContent;
+          const checked = li.querySelector('input').checked;
+          tasks.push({ label, checked });
+        });
+
+        allTasks[section] = tasks;
+      });
+
+      localStorage.setItem('todo-tasks', JSON.stringify(allTasks));
+    }
+
+    function loadTasks() {
+      const saved = localStorage.getItem('todo-tasks');
+      if (!saved) return;
+
+      const allTasks = JSON.parse(saved);
+
+      Object.keys(allTasks).forEach(section => {
+        const list = document.getElementById(`${section}-list`);
+        allTasks[section].forEach(task => {
+          const taskId = 'task-' + Date.now() + Math.random();
+          const li = document.createElement('li');
+          li.innerHTML = `
+            <input type="checkbox" id="${taskId}" ${task.checked ? 'checked' : ''}>
+            <label for="${taskId}">${task.label}</label>
+            <button class="delete-btn" onclick="deleteTask(this)">🗑</button>
+          `;
+          list.appendChild(li);
+        });
+      });
+    }
+
+    window.onload = loadTasks;
+  </script>
 </body>
 </html>

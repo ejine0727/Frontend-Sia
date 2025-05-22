@@ -2,50 +2,28 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Quotes</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
+<header class="top-link">
+    <a href="../index.html">← Back to Dashboard</a>
+  </header>
   <main class="main-content">
-    
-    <!-- Header Section -->
     <div class="header">
       <h1>Quotes</h1>
       <div class="action-buttons">
         <button id="editBtn" class="edit-btn">Edit Selected</button>
-  <button id="deleteBtn" class="delete-btn">Delete Selected</button>
+        <button id="deleteBtn" class="delete-btn">Delete Selected</button>
       </div>
     </div>
 
-    <!-- Quotes Grid -->
-    <div class="quotes-grid">
-      <div class="quote yellow">
-        The time is always right to do what is right. <br><br> —Martin Luther King Jr.
-      </div>
-      <div class="quote blue">
-        Tell me and I forget. Teach me and I remember. Involve me and I learn. <br><br> —Benjamin Franklin
-      </div>
-      <div class="quote teal">
-        Don’t watch the clock; do what it does. Keep going. <br><br> —Sam Levenson
-      </div>
-      <div class="quote orange">
-        Study tip: Lie down and wait for motivation to come. If it doesn’t, take a nap.
-      </div>
-      <div class="quote pink">
-        Logic will get you from A to B. Imagination will take you everywhere. <br><br> —Albert Einstein
-      </div>
+    <div class="quotes-grid" id="quotesGrid">
       <div class="quote add-box">+</div>
     </div>
-
   </main>
-<!-- Back to Dashboard Link -->
-  <footer class="footer">
-  <a href="../index.html">← Back</a>
-</footer>
 
-  <!-- Modal for Adding Quotes -->
   <div class="modal" id="quoteModal">
     <div class="modal-content">
       <h3>Add a New Quote</h3>
@@ -57,89 +35,148 @@
     </div>
   </div>
 
-  <!-- JavaScript -->
-<script>
-  const modal = document.getElementById('quoteModal');
-  const addBox = document.querySelector('.add-box');
-  const closeModal = document.getElementById('closeModal');
-  const saveQuote = document.getElementById('saveQuote');
-  const newQuoteInput = document.getElementById('newQuote');
-  const quotesGrid = document.querySelector('.quotes-grid');
-  const editBtn = document.querySelector('.edit-btn');
-  const deleteBtn = document.querySelector('.delete-btn');
+  <script>
+    const modal = document.getElementById('quoteModal');
+    const addBox = document.querySelector('.add-box');
+    const closeModal = document.getElementById('closeModal');
+    const saveQuote = document.getElementById('saveQuote');
+    const newQuoteInput = document.getElementById('newQuote');
+    const quotesGrid = document.getElementById('quotesGrid');
+    const editBtn = document.getElementById('editBtn');
+    const deleteBtn = document.getElementById('deleteBtn');
 
-  let selectedQuote = null;
-  let isEditing = false;
-  let quoteBeingEdited = null;
+    let selectedQuote = null;
+    let isEditing = false;
+    let quoteBeingEditedIndex = null;
 
-  const colors = ['yellow', 'blue', 'teal', 'orange', 'pink'];
+    const colors = ['yellow', 'blue', 'teal', 'orange', 'pink'];
 
-  function openModal() {
-    modal.style.display = 'flex';
-  }
+    function openModal() {
+      modal.style.display = 'flex';
+    }
 
-  function closeModalFunc() {
-    modal.style.display = 'none';
-    newQuoteInput.value = '';
-    isEditing = false;
-    quoteBeingEdited = null;
-  }
+    function closeModalFunc() {
+      modal.style.display = 'none';
+      newQuoteInput.value = '';
+      isEditing = false;
+      quoteBeingEditedIndex = null;
+    }
 
-  function saveNewQuote() {
-    const quoteText = newQuoteInput.value.trim();
-    if (quoteText !== '') {
-      if (isEditing && quoteBeingEdited) {
-        quoteBeingEdited.textContent = quoteText;
-        isEditing = false;
-        quoteBeingEdited = null;
-      } else {
-        const newDiv = document.createElement('div');
-        const randomColor = colors[Math.floor(Math.random() * colors.length)];
-        newDiv.className = `quote ${randomColor}`;
-        newDiv.textContent = quoteText;
-        quotesGrid.insertBefore(newDiv, addBox);
+    function saveToStorage(quotes) {
+      localStorage.setItem('quotes', JSON.stringify(quotes));
+    }
+
+    function loadFromStorage() {
+      const data = localStorage.getItem('quotes');
+      return data ? JSON.parse(data) : [];
+    }
+
+ function renderQuotes() {
+  let quotes = loadFromStorage();
+
+  // Load default quotes if storage is empty
+  if (quotes.length === 0) {
+    quotes = [
+      {
+        text: 'The time is always right to do what is right.<br><br> —Martin Luther King Jr.',
+        color: 'yellow'
+      },
+      {
+        text: 'Tell me and I forget. Teach me and I remember. Involve me and I learn.<br><br> —Benjamin Franklin',
+        color: 'blue'
+      },
+      {
+        text: 'Don’t watch the clock; do what it does. Keep going.<br><br> —Sam Levenson',
+        color: 'teal'
+      },
+      {
+        text: 'Study tip: Lie down and wait for motivation to come. If it doesn’t, take a nap.',
+        color: 'orange'
+      },
+      {
+        text: 'Logic will get you from A to B. Imagination will take you everywhere.<br><br> —Albert Einstein',
+        color: 'pink'
       }
+    ];
+    saveToStorage(quotes);
+  }
+
+  quotesGrid.innerHTML = ''; // Clear grid first
+
+  quotes.forEach((quote, index) => {
+    const div = document.createElement('div');
+    div.className = `quote ${quote.color}`;
+    div.innerHTML = quote.text;
+    div.dataset.index = index;
+    quotesGrid.appendChild(div);
+  });
+
+  // Create and append the add (+) box
+  const addBoxDiv = document.createElement('div');
+  addBoxDiv.className = 'quote add-box';
+  addBoxDiv.textContent = '+';
+  addBoxDiv.addEventListener('click', openModal);
+  quotesGrid.appendChild(addBoxDiv);
+}
+
+
+    function saveNewQuote() {
+      const quoteText = newQuoteInput.value.trim();
+      if (!quoteText) return;
+
+      let quotes = loadFromStorage();
+
+      if (isEditing && quoteBeingEditedIndex !== null) {
+        quotes[quoteBeingEditedIndex].text = quoteText;
+      } else {
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+        quotes.push({ text: quoteText, color: randomColor });
+      }
+
+      saveToStorage(quotes);
+      renderQuotes();
       closeModalFunc();
     }
-  }
 
-  addBox.addEventListener('click', openModal);
-  closeModal.addEventListener('click', closeModalFunc);
-  saveQuote.addEventListener('click', saveNewQuote);
+    addBox.addEventListener('click', openModal);
+    closeModal.addEventListener('click', closeModalFunc);
+    saveQuote.addEventListener('click', saveNewQuote);
 
-  quotesGrid.addEventListener('click', function (e) {
-    if (
-      e.target.classList.contains('quote') &&
-      !e.target.classList.contains('add-box')
-    ) {
-      if (selectedQuote) selectedQuote.classList.remove('selected');
-      selectedQuote = e.target;
-      selectedQuote.classList.add('selected');
-    }
-  });
+    quotesGrid.addEventListener('click', function (e) {
+      if (e.target.classList.contains('quote') && !e.target.classList.contains('add-box')) {
+        if (selectedQuote) selectedQuote.classList.remove('selected');
+        selectedQuote = e.target;
+        selectedQuote.classList.add('selected');
+      }
+    });
 
-  editBtn.addEventListener('click', function () {
-    if (selectedQuote && !selectedQuote.classList.contains('add-box')) {
-      newQuoteInput.value = selectedQuote.textContent;
-      isEditing = true;
-      quoteBeingEdited = selectedQuote;
-      openModal();
-    } else {
-      alert('Please select a quote to edit.');
-    }
-  });
+    editBtn.addEventListener('click', function () {
+      if (selectedQuote && !selectedQuote.classList.contains('add-box')) {
+        const index = selectedQuote.dataset.index;
+        const quotes = loadFromStorage();
+        newQuoteInput.value = quotes[index].text;
+        isEditing = true;
+        quoteBeingEditedIndex = index;
+        openModal();
+      } else {
+        alert('Please select a quote to edit.');
+      }
+    });
 
-  deleteBtn.addEventListener('click', function () {
-    if (selectedQuote && !selectedQuote.classList.contains('add-box')) {
-      quotesGrid.removeChild(selectedQuote);
-      selectedQuote = null;
-    } else {
-      alert('Please select a quote to delete.');
-    }
-  });
-</script>
+    deleteBtn.addEventListener('click', function () {
+      if (selectedQuote && !selectedQuote.classList.contains('add-box')) {
+        const index = selectedQuote.dataset.index;
+        let quotes = loadFromStorage();
+        quotes.splice(index, 1);
+        saveToStorage(quotes);
+        selectedQuote = null;
+        renderQuotes();
+      } else {
+        alert('Please select a quote to delete.');
+      }
+    });
 
-
-
+    window.onload = renderQuotes;
+  </script>
 </body>
 </html>

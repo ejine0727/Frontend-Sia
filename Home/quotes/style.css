@@ -168,19 +168,31 @@ body {
 }
 
 
-/* Back to Dashboard Link */
-a[href*="index.html"] {
-  display: inline-block;
+/* Footer container for centering */
+.footer {
+  text-align: center;
   margin-top: 80px;
+}
+
+/* Top Back to Dashboard Link */
+.top-link {
+  text-align: left;
+  padding: 20px;
+}
+
+.top-link a {
+  display: inline-block;
   text-decoration: none;
   color: #6a7b8dbb;
   font-weight: bold;
   transition: color 0.2s;
 }
 
-a[href*="index.html"]:hover {
+.top-link a:hover {
   color: #0056b3;
 }
+
+
 
 /* Responsive Tweaks */
 @media (max-width: 600px) {
